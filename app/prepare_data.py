@@ -1,6 +1,7 @@
 from pathvalidate import sanitize_filename
 from tqdm import tqdm
 from pyspark.sql import SparkSession
+from pyspark.sql.functions import col
 
 
 spark = SparkSession.builder \
@@ -23,5 +24,7 @@ def create_doc(row):
 
 df.foreach(create_doc)
 
-
 # df.write.csv("/index/data", sep = "\t")
+
+rdd = df.rdd.map(lambda row: f"{row['id']}\t{row['title']}\t{row['text']}")
+rdd.coalesce(1).saveAsTextFile("/index/data")

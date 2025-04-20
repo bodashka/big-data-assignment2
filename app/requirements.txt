@@ -3,5 +3,6 @@ venv-pack
 pyarrow
 fastparquet
 pathvalidate
+wheel
 pyspark
 tqdm
